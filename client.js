@@ -22,9 +22,7 @@ const getFeedbackByProductViewData = async (product, actualize = false) => {
     };
   });
 
-  return {
-    feedback: [...feedback],
-  };
+  return { feedback };
 };
 
 module.exports = { getFeedbackByProductViewData };
