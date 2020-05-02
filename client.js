@@ -28,6 +28,26 @@ const getFeedbackByProductViewData = async (product, actualize = false) => {
         return new Date(a.date) - new Date(b.date);
       });
 
+    function onlyUnique(value, index, self) {
+      return self.indexOf(value) === index;
+    }
+    if (actualize) {
+      const actualizeFeedback = feedback.map((comment) => {
+        const allUserComments = feedback
+          .filter((userComment) => userComment.user === comment.user)
+          .sort((a, b) => {
+            return new Date(a.date) - new Date(b.date);
+          });
+        return allUserComments[allUserComments.length - 1];
+      });
+
+      return {
+        feedback: actualizeFeedback.filter(onlyUnique).sort((a, b) => {
+          return new Date(a.date) - new Date(b.date);
+        }),
+      };
+    }
+
     if (feedbackRes.data.feedback.length === 0) {
       return { message: "Отзывов пока нет" };
     }
